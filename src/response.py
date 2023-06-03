@@ -1,4 +1,5 @@
 from src.client import supabase
+from fastapi.responses import JSONResponse
 
 
 def get_responses(response_id):
@@ -8,7 +9,9 @@ def get_responses(response_id):
         .eq("id", response_id)
         .execute()
     )
-    return res.data[0]
+    if len(res.data) == 0:
+        return {"message": "Invalid 'response_id' provided"}
+    return {"data": res.data[0]}
 
 
 def create_responses(prompt_id, response_text, user_id):
@@ -22,7 +25,11 @@ def create_responses(prompt_id, response_text, user_id):
         )
         .execute()
     )
-    return res.data[0]["id"]
+    if len(res.data) == 0:
+        return JSONResponse(
+            status_code=400, content={"message": "Invalid response details provided"}
+        )
+    return {"data": res.data[0]["id"]}
 
 
 def delete_responses(response_id):
@@ -32,4 +39,6 @@ def delete_responses(response_id):
         .eq("id", response_id)
         .execute()
     )
-    return res.data[0]["id"]
+    if len(res.data) == 0:
+        return {"message": "Invalid 'response_id' provided"}
+    return {"data": res.data[0]["id"]}

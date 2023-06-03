@@ -3,7 +3,9 @@ from src.client import supabase
 
 def get_prompts(prompt_id):
     res = supabase.from_("prompts").select("*").eq("id", prompt_id).execute()
-    return res.data[0]
+    if len(res.data) > 0:
+        return {"data": res.data[0]}
+    return {"message": "Invalid prompt id"}
 
 
 def create_prompts(chart_id, prompt_text, llm_model, user_id):
@@ -32,7 +34,7 @@ def create_prompts(chart_id, prompt_text, llm_model, user_id):
         )
         .execute()
     )
-    return res.data[0]["id"]
+    return {"data": res.data[0]["id"]}
 
 
 def delete_prompts(prompt_id):
@@ -42,4 +44,6 @@ def delete_prompts(prompt_id):
         .eq("id", prompt_id)
         .execute()
     )
-    return res.data[0]["id"]
+    if len(res.data) == 0:
+        return {"message": "Invalid prompt id"}
+    return {"data": res.data[0]["id"]}
