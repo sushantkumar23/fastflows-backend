@@ -2,18 +2,17 @@
 name = "fastflows-backend"
 version = "0.1.0"
 description = ""
-authors = ["adimyth <aditya@fnp.dev>"]
+authors = ["adimyth <mishraaditya6991@gmail.com>"]
 readme = "README.md"
 packages = [{include = "fastflows_backend"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 supabase = "^1.0.3"
-python-dotenv = "^1.0.0"
 fastapi = "^0.95.2"
 uvicorn = "^0.22.0"
-python-multipart = "^0.0.6"
 openai = "^0.27.7"
+python-multipart = "^0.0.6"
 
 
 [build-system]
