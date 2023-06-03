@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "fastflows-backend"
+version = "0.1.0"
+description = ""
+authors = ["adimyth <aditya@fnp.dev>"]
+readme = "README.md"
+packages = [{include = "fastflows_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+supabase = "^1.0.3"
+python-dotenv = "^1.0.0"
+fastapi = "^0.95.2"
+uvicorn = "^0.22.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
