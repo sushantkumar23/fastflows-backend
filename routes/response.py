@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends
 import uuid
+
+from fastapi import APIRouter, Depends
+
 from auth import get_current_user
 from models.response import ResponseBody
 from src.response import create_responses, delete_responses, get_responses
 
-router = APIRouter(prefix="/response", tags=["response"])
+router = APIRouter(prefix="/response", tags=["Response APIs"])
 
 
 @router.get("/", description="Get response by id")

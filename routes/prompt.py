@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Depends
 import uuid
+
+from fastapi import APIRouter, Depends
 
 from auth import get_current_user
 from models.prompt import PromptRequest
 from src.prompt import create_prompts, delete_prompts, get_prompts
 
-router = APIRouter(prefix="/prompt", tags=["prompt"])
+router = APIRouter(prefix="/prompt", tags=["Prompt APIs"])
 
 
 @router.get("/", description="Get prompt by id")

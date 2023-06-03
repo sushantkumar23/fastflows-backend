@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from models.auth import UserCreds
-from src.user import login_user, signup_user
+from src.user import login_user, logout_user, signup_user
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -14,3 +14,8 @@ def signup(user_creds: UserCreds):
 @router.post("/login", description="Login a user")
 def login(user_creds: UserCreds):
     return login_user(user_creds.email, user_creds.password)
+
+
+@router.get("/logout", description="Logout a user")
+def logout():
+    return logout_user()

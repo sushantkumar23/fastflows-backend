@@ -1,6 +1,8 @@
-from src.client import supabase
-from fastapi.responses import JSONResponse
 import uuid
+
+from fastapi.responses import JSONResponse
+
+from src.client import supabase
 
 
 def get_user_charts(user_id):
@@ -23,7 +25,9 @@ def create_chart(chart_name, chart_type, user_id):
         .execute()
     )
     if len(res.data) == 0:
-        return JSONResponse(status_code=400, content={"message": "Invalid chart details provided"})
+        return JSONResponse(
+            status_code=400, content={"message": "Invalid chart details provided"}
+        )
     return {"data": res.data[0]["id"]}
 
 

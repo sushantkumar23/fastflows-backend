@@ -24,3 +24,8 @@ def login_user(email: str, password: str):
             "refresh_token": res.session.refresh_token,
         },
     }
+
+
+def logout_user():
+    res = supabase.auth.sign_out()
+    return {"message": "User logged out"}

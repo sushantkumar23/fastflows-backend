@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends
 import uuid
+
+from fastapi import APIRouter, Depends
+
 from auth import get_current_user
 from models.chart import ChartRequest
 from src.chart import create_chart, delete_chart, get_user_charts
 
-router = APIRouter(prefix="/chart", tags=["chart"])
+router = APIRouter(prefix="/chart", tags=["Chart APIs"])
 
 
 @router.get("/", description="Get all charts for a user")
