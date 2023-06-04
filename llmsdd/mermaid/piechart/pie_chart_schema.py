@@ -24,11 +24,11 @@ class PieChartSchema(Schema):
         return self.__repr__()
 
     def to_json(self):
-        return f"""{
+        return f"""{{
             'showData': {self.showData},
             'title': {self.title},
             'dataset': {self.dataset}
-        }
+        }}
         """
 
     def to_mermaid(self):

@@ -8,33 +8,56 @@ from auth import get_current_user
 from llmsdd.core.prompt_manager import PromptManager
 from llmsdd.interfaces import OAIManager
 from llmsdd.mermaid.piechart import PieChartPrompt, PieChartSchema
-
-# TODO: Check if this is the correct way to integrate the prompt manager
-pm = PromptManager(
-    schema0=PieChartSchema(),
-    prompt0=PieChartPrompt(),
-    interface=OAIManager(api_key=os.getenv("OPENAI_API_KEY")),
-)
+from models.piechart import PieChartPromptRequest
 
 router = APIRouter(prefix="/piechart", tags=["Pie Chart APIs"])
 
 
-@router.get("/schema", description="Get pie chart schema for input prompt")
-def get_schema(prompt: str, user=Depends(get_current_user)):
-    res = pm.iterate(
-        with_prompt=prompt,
-    )
-    res = re.sub(r"'", '"', res)
-    try:
-        res_json = json.loads(res)
-    except json.JSONDecodeError as e:
-        raise HTTPException(
-            status_code=500, detail="Error parsing JSON response from OpenAI"
+@router.post("/schema", description="Get pie chart schema for input prompt")
+def get_schema(prompt: PieChartPromptRequest, user=Depends(get_current_user)):
+    if prompt.latest_schema == "":
+        pm = PromptManager(
+            schema0=PieChartSchema(),
+            prompt0=PieChartPrompt(),
+            interface=OAIManager(api_key=os.getenv("OPENAI_API_KEY")),
+            prompt_template="piechart",
         )
-    if res_json["processing_error"] == "none":
-        mermaid_schema = json_to_mermaid(res_json["updated_schema"])
-        return {"data": mermaid_schema}
-    raise HTTPException(status_code=500, detail="Error processing prompt")
+        res = pm.iterate(
+            with_prompt=prompt.prompt,
+        )
+        res = re.sub(r"'", '"', res)
+        try:
+            res_json = json.loads(res)
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=500, detail="Error parsing JSON response from OpenAI"
+            )
+        if res_json["processing_error"] == "none":
+            res_schema = res_json["updated_schema"]
+            mermaid_schema = json_to_mermaid(res_schema)
+            mermaid_json = PieChartSchema(**res_schema).to_json()
+            return {"data": {"schema": mermaid_schema, "json": mermaid_json}}
+        raise HTTPException(status_code=500, detail="Error processing prompt")
+    else:
+        latest_schema = PieChartSchema.parse_raw(prompt.latest_schema)
+        latest_prompt = PieChartPrompt()
+        latest_prompt.schema_in = latest_schema
+        pm = PromptManager(
+            schema0=latest_schema,
+            prompt0=latest_prompt,
+            interface=OAIManager(api_key=os.getenv("OPENAI_API_KEY")),
+        )
+        res = pm.iterate(
+            with_prompt=prompt.prompt,
+        )
+        output_pattern = r"Output: ({.*})"
+        output = str_to_dict(re.search(output_pattern, res).group(1))
+        if output["processing_error"] == "none":
+            res_schema = output["updated_schema"]
+            mermaid_schema = json_to_mermaid(res_schema)
+            mermaid_json = PieChartSchema(**res_schema).to_json()
+            return {"data": {"schema": mermaid_schema, "json": mermaid_json}}
+        raise HTTPException(status_code=500, detail="Error processing prompt")
 
 
 def json_to_mermaid(data: dict) -> str:
@@ -47,3 +70,7 @@ def json_to_mermaid(data: dict) -> str:
         mermaid_code += f'    "{key}" : {value}\n'
 
     return mermaid_code
+
+
+def str_to_dict(s):
+    return json.loads(s.replace("'", '"'))
