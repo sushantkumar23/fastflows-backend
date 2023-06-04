@@ -13,7 +13,7 @@ async def transcribe_audio(
     file: UploadFile = File(...), user_id=Depends(get_current_user)
 ):
     # Save the file to disk
-    file_location = f"{file.filename}"
+    file_location = f"/tmp/{file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
