@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from models.auth import UserCreds
 from src.user import login_user, logout_user, signup_user
 
-router = APIRouter(prefix="/user", tags=["user"])
+router = APIRouter(prefix="/user", tags=["User APIs"])
 
 
 @router.post("/signup", description="Create a new user")

@@ -1,13 +1,13 @@
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 
 from routes.chart import router as chart_router
+from routes.piechart import router as piechart_router
 from routes.prompt import router as prompt_router
 from routes.response import router as response_router
-from routes.user import router as user_router
 from routes.transcribe import router as transcribe_router
+from routes.user import router as user_router
 
 app = FastAPI()
 
@@ -33,6 +33,7 @@ app.include_router(chart_router)
 app.include_router(prompt_router)
 app.include_router(response_router)
 app.include_router(transcribe_router)
+app.include_router(piechart_router)
 
 
 # Run app

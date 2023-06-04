@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Optional
 from loguru import logger
 from pydantic import BaseModel
 
-from .instructions import Instructions
 from .prompt import Prompt
 from .prompt_history import PromptHistory
 from .schema import Schema
