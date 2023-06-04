@@ -23,6 +23,6 @@ async def transcribe_audio(
         transcript = openai.Audio.translate("whisper-1", audio_file)
         # remove the file from disk
         os.remove(file_location)
-        return {"transcript": transcript}
+        return {"transcript": transcript, header: "Access-Control-Allow-Origin: *"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error transcribing audio: {e}")
