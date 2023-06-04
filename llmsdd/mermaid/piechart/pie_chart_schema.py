@@ -26,7 +26,7 @@ class PieChartSchema(Schema):
     def to_json(self):
         return f"""{{
             'showData': {self.showData},
-            'title': {self.title},
+            'title': '{self.title}',
             'dataset': {self.dataset}
         }}
         """

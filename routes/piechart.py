@@ -23,6 +23,10 @@ def get_schema(prompt: PieChartPromptRequest, user=Depends(get_current_user)):
             prompt_template="piechart",
         )
     else:
+        prompt.latest_schema = prompt.latest_schema.replace("'", '"')
+        prompt.latest_schema = prompt.latest_schema.replace("\n", "")
+        prompt.latest_schema = prompt.latest_schema.replace("True", "true")
+        prompt.latest_schema = prompt.latest_schema.replace("False", "false")
         latest_schema = PieChartSchema.parse_raw(prompt.latest_schema)
         latest_prompt = PieChartPrompt()
         latest_prompt.schema_in = latest_schema
