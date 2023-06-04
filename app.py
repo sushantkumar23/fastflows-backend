@@ -21,14 +21,6 @@ app.add_middleware(
 )
 
 
-# Add middleware that adds 'Access-Control-Allow-Origin: *' header to all responses
-@app.middleware("http")
-async def add_process_time_header(request: Request, call_next):
-    response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    return response
-
-
 # Health Check
 @app.get("/", tags=["Health Check"])
 async def health():
