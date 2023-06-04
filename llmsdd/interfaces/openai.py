@@ -20,7 +20,7 @@ class OAIManager(BaseModel):
         self,
         *,
         messages: List[Dict[str, str]],
-        model: str = "gpt-3.5-turbo",
+        model: str = "gpt-4",
         params: dict = {},
     ):
         # TODO: add request_timeout param and error handling for it

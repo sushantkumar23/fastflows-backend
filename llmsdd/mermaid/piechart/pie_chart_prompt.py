@@ -104,6 +104,14 @@ class PieChartPrompt(Prompt):
                         * Input Schema: {"showData": true, "title": "View Share", "dataset": {"Naruto": 22, "Pikachu": 56, "SamuraiX": 16}}
                         * User Request: 'Change the title to My Anime and change Pikachu to 52 and add Goku with a value of 5'
                         * Desired Output: {"processing_error": "none", "updated_schema": {"showData": true, "title": "My Anime", "dataset": {"Naruto": 22, "Pikachu": 52, "SamuraiX": 16, "Goku": 5}}}""",
+                    """Example 15:
+                        * Input Schema: {"showData": true, "title": "View Share", "dataset": {"Naruto": 22, "Pikachu": 56, "SamuraiX": 16}}
+                        * User Request: 'Add Death Note with a value of 10 and do not replace the original input schema'
+                        * Desired Output: {"processing_error": "none", "updated_schema": {"showData": true, "title": "View Share", "dataset": {"Naruto": 22, "Pikachu": 56, "SamuraiX": 16, "Death Note": 10}}}""",
+                    """Example 16:
+                        * Input Schema: {"showData": true, "title": "World Population", "dataset": {"Asia": 60, "Europe": 20, "Africa": 20}}
+                        * User Request: 'Add North America with a value of 10 and do not replace the original input schema'
+                        * Desired Output: {"processing_error": "none", "updated_schema": {"showData": true, "title": "World Population", "dataset": {"Asia": 60, "Europe": 20, "Africa": 20, "North America": 10}}}""",
                 ],
             ),
             response=None,
