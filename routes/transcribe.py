@@ -1,7 +1,7 @@
 import os
 
 import openai
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, JSONResponse
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
 from auth import get_current_user
 
