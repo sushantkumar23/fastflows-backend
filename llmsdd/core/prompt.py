@@ -30,7 +30,7 @@ class Prompt(BaseModel):
     @property
     def messages(self):
         prompt = f"This is your current `User Request`: {self.prompt_user}. Please update the `Input Schema` as described above and return the response as a json."
-        prompt = self.all_instructions + "\n\n" + prompt
+        prompt = self.all_instructions + "\n\n" + prompt + "\n\n```json"
         return [
             {"role": "system", "content": self.prompt_system},
             {"role": "user", "content": prompt},
