@@ -1,7 +1,7 @@
 import os
 
 import openai
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, JSONResponse
 
 from auth import get_current_user
 
@@ -23,6 +23,11 @@ async def transcribe_audio(
         transcript = openai.Audio.translate("whisper-1", audio_file)
         # remove the file from disk
         os.remove(file_location)
-        return {"transcript": transcript, header: "Access-Control-Allow-Origin: *"}
+        return JSONResponse(
+            content={"transcript": transcript},
+            status_code=200,
+            media_type="application/json",
+            headers={"Access-Control-Allow-Origin": "*"},
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error transcribing audio: {e}")
